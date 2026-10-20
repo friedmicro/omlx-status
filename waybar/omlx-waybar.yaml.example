@@ -1,0 +1,5 @@
+api_url: http://omlx.ai.lucia.friedmicro-lab.org
+backends:
+   - small
+   - mid
+   - big
