@@ -1,13 +1,15 @@
-FROM docker.friedmicro-lab.org/base
+FROM docker.friedmicro-lab.org/base AS build
 
 WORKDIR /app
 
 COPY go.mod ./
 COPY main.go ./
 
-# Standard library only — no external deps, so no go.sum is needed.
-RUN go mod download && \
-    go build -o omlx-status .
+RUN go mod download
+RUN go build -o /opt/omlx-status
+
+FROM docker.friedmicro-lab.org/base-slim
+COPY --from=build /opt/omlx-status /opt/omlx-status
 
 EXPOSE 8080
-CMD ["./omlx-status"]
+CMD ["/opt/omlx-status"]
