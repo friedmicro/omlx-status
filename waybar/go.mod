@@ -1,5 +1,5 @@
 module omlx-status-waybar
 
-go 1.21
+go 1.27
 
 require gopkg.in/yaml.v2 v2.4.0
