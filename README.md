@@ -22,7 +22,11 @@ Additionally we also need to know:
 OMLX does not have unauthenticated API endpoints for getting metrics so this simply logs in to each backend and aggregates the results.
 
 ## To run\use
-Build the docker container (you will need to modify it slightly) or build the binaries in `api` and `waybar` with `go build`. The backend uses an environment variable `OMLX_BACKENDS` which takes the parameters: `label,host,port,apiKey` and is repeated\seperated by `;` if you have multiple nodes. To configure waybar make a copy of the omlx-waybar.yaml and edit the respective values.
+Build the docker container (you will need to modify it slightly) or build the binaries in `api` and `waybar` with `go build`. The backend uses an environment variable `OMLX_BACKENDS` which takes the parameters: `label,host,port,apiKey` and is repeated\seperated by `;` if you have multiple nodes.
+
+To build waybar...run `cargo build --release` and the built binary into workable location.
+
+To configure waybar make a copy of the omlx-waybar.yaml and edit the respective values. Do note the waybar component has a dependency on: https://github.com/friedmicro/waybar-net-daemon.
 
 ## Design considerations
 This service is stateless and there is intentionally no database. This is because on my deployment it was designed to run in high availability. It's goal is purely to provide a clean way to scrap the metrics that are safe to expose without authentication for another service to use them.
