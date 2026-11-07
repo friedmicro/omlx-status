@@ -36,7 +36,7 @@ type MemoryPressure struct {
 type ActiveModel struct {
 	ID              string            `json:"id"`
 	Waiting         []json.RawMessage `json:"waiting"`
-	Prefilling      []json.RawMessage `json:"prefilling"`
+	Prefilling      []Prefilling      `json:"prefilling"`
 	Generating      []json.RawMessage `json:"generating"`
 	ActiveRequests  int               `json:"active_requests"`
 	WaitingRequests int               `json:"waiting_requests"`
@@ -64,7 +64,7 @@ type EndpointStatus struct {
 	ModelMemoryMax       int64             `json:"model_memory_max"`
 	MemoryPressure       *MemoryPressure   `json:"memory_pressure"`
 	Waiting              []json.RawMessage `json:"waiting"`
-	Prefilling           []json.RawMessage `json:"prefilling"`
+	Prefilling           []Prefilling      `json:"prefilling"`
 	Generating           []json.RawMessage `json:"generating"`
 	ActiveRequests       int               `json:"active_requests"`
 	WaitingRequests      int               `json:"waiting_requests"`
@@ -73,6 +73,17 @@ type EndpointStatus struct {
 	Busy                 bool              `json:"busy"`
 	Maintenance          bool              `json:"maintenance"`
 	Error                string            `json:"error,omitempty"`
+}
+
+type Prefilling struct {
+	RequestID string `json:"request_id"`
+	Processed int    `json:"processed"`
+	Total     int    `json:"total"`
+	Speed     int64  `json:"speed"`
+	Eta       int64  `json:"eta"` // In some versions of OMLX this can default to null and crash certain clients, this cast will set this to 0 if null and avoid this issue
+	Elapsed   int64  `json:"elapsed"`
+	Phase     string `json:"phase"`
+	// Detail exists here, but appears unused...drop the field
 }
 
 func newAuthedClient() *http.Client {
